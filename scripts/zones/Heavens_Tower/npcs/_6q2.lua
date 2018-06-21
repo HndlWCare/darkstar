@@ -15,7 +15,6 @@ function onTrade(player,npc,trade)
 end;
 
 function onTrigger(player,npc)
-
     local CurrentMission = player:getCurrentMission(WINDURST);
     local MissionStatus = player:getVar("MissionStatus");
 
@@ -37,19 +36,28 @@ function onTrigger(player,npc)
         player:startEvent(312);
     elseif (CurrentMission == DOLL_OF_THE_DEAD and MissionStatus == 2) then
         player:startEvent(362);
+    elseif (CurrentMission == MOON_READING and MissionStatus == 0) then
+        player:startEvent(384);
+    elseif (CurrentMission == MOON_READING and MissionStatus == 1 and
+            player:hasKeyItem(dsp.ki.ANCIENT_VERSE_OF_ROMAEVE) and
+            player:hasKeyItem(dsp.ki.ANCIENT_VERSE_OF_ALTEPA) and
+            player:hasKeyItem(dsp.ki.ANCIENT_VERSE_OF_UGGALEPIH)) then
+        player:startEvent(385);
+    elseif (CurrentMission == MOON_READING and MissionStatus == 3) then
+        player:startEvent(386);
+    elseif (CurrentMission == MOON_READING and MissionStatus == 4) then
+        player:startEvent(407);
     else
         player:startEvent(154);
     end
 
     return 1;
-
 end;
 
 function onEventUpdate(player,csid,option)
 end;
 
 function onEventFinish(player,csid,option)
-
     if (csid == 153) then
         player:setVar("MissionStatus",1);
         player:delKeyItem(dsp.ki.STAR_CRESTED_SUMMONS);
@@ -78,6 +86,14 @@ function onEventFinish(player,csid,option)
         finishMissionTimeline(player,1,csid,option);
     elseif (csid == 362) then
         player:setVar("MissionStatus",3);
+    elseif (csid == 384) then
+        player:setVar("MissionStatus",1);
+    elseif (csid == 385) then
+        player:setVar("MissionStatus",2);
+    elseif (csid == 386) then
+        player:setVar("MissionStatus",4);
+    elseif (csid == 407) then
+        player:setVar("MissionStatus",5);
+        player:setPos(0,-16,135,60,239);
     end
-
 end;
